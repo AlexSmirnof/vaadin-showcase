@@ -2,16 +2,17 @@ version: 2
 jobs:
   one:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: openjdk:8
     steps:
       - checkout
-      - run: echo "A first hello"
+      - run: pwd
+      - run: ls -lah
   two:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - run: echo "A second hello"
+      - run: java --version
 workflows:
   version: 2
   deploy:
