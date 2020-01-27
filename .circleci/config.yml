@@ -29,5 +29,5 @@ workflows:
   version: 2
   deploy:
     jobs:
-      - one
-      - two
+      - maven-build
+      - npm-build
