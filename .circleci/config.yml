@@ -16,7 +16,7 @@ jobs:
       - run: node -v
       - run: npm -v
       - run: npm set progress=false
-      - run: npm ci
+      - run: npm i
 workflows:
   version: 2
   deploy:
