@@ -12,7 +12,7 @@ jobs:
       - image: openjdk:8
     steps:
       - checkout
-      - run: java --version
+      - run: java -version
 workflows:
   version: 2
   deploy:
