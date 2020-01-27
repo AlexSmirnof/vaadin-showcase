@@ -12,7 +12,8 @@ jobs:
           key: mvn-dependency-cache-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
-      - run: mvn clean install -DskipTests
+      - run: mvn clean install -DskipTests -Pproduction
+      - run: mvn tomee:run -DskipTests -Pproduction
   npm-build:
     docker:
       - image: node:10.18.1-alpine3.9
