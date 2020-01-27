@@ -9,7 +9,7 @@ jobs:
       - run: ls -lah
   two:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: openjdk:8
     steps:
       - checkout
       - run: java --version
