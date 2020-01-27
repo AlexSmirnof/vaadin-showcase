@@ -1,23 +1,28 @@
 version: 2
 jobs:
-  one:
+  maven-build:
     docker:
       - image: maven:3.6.3-jdk-8-slim
     steps:
       - checkout
-      - run: java -version
-      - run: mvn -v
+      - restore_cache:
+          key: mvn-dependency-cache-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - save_cache:
+          key: mvn-dependency-cache-{{ checksum "pom.xml" }}
+          paths:
+            - ~/.m2
       - run: mvn clean install -DskipTests
-  two:
+  npm-build:
     docker:
       - image: node:10.18.1-alpine3.9
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
       - run: npm set progress=false && npm i --prefer-offline
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
 workflows:
