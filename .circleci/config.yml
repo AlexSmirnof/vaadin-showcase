@@ -9,13 +9,19 @@ jobs:
 #          docker_layer_caching: true
       - restore_cache:
           key: mvn-dependency-cache-{{ checksum "pom.xml" }}
+      - restore_cache:
+          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
       - run: mvn dependency:go-offline
       - save_cache:
           key: mvn-dependency-cache-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
+      - save_cache:
+          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
       - run: mvn clean install -DskipTests -Pproduction
-      - run: mvn tomee:run -DskipTests -Pproduction
+#      - run: mvn tomee:run -DskipTests -Pproduction
       - store_artifacts: # See circleci.com/docs/2.0/artifacts/ for more details.
           path: /target/vaadin-showcase-1.0-SNAPSHOT.war
           destination: app.war
@@ -25,7 +31,6 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
       - run: npm set progress=false
       - run: npm i --prefer-offline
       - save_cache:
@@ -37,4 +42,3 @@ workflows:
   deploy:
     jobs:
       - maven-build
-      - npm-build
