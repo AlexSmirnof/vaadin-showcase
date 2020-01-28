@@ -4,9 +4,9 @@ jobs:
     docker:
       - image: maven:3.6.3-jdk-8-slim
     steps:
+      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - checkout
       - restore_cache:
           key: mvn-dependency-cache-{{ checksum "pom.xml" }}
       - run: mvn dependency:go-offline
@@ -23,7 +23,8 @@ jobs:
       - checkout
       - restore_cache:
           key: npm-dependency-cache-{{ checksum "package-lock.json" }}
-      - run: npm set progress=false && npm i --prefer-offline
+      - run: npm set progress=false
+      - run: npm i --prefer-offline
       - save_cache:
           key: npm-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
