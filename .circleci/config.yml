@@ -37,18 +37,19 @@ jobs:
 #              path: ~/test-results
 #          - store_artifacts:
 #              path: ~/test-results/junit
-    npm-build:
-    docker:
-      - image: node:10.18.1-alpine3.9
-    steps:
-      - checkout
-      - restore_cache:
-      - run: npm set progress=false
-      - run: npm i --prefer-offline
-      - save_cache:
-          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
+
+#    npm-build:
+#        docker:
+#          - image: node:10.18.1-alpine3.9
+#        steps:
+#          - checkout
+#          - restore_cache:
+#          - run: npm set progress=false
+#          - run: npm i --prefer-offline
+#          - save_cache:
+#              key: npm-dependency-cache-{{ checksum "package-lock.json" }}
+#              paths:
+#                - ./node_modules
 workflows:
   version: 2
   deploy:
