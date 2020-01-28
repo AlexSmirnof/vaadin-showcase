@@ -22,10 +22,22 @@ jobs:
             - ./node_modules
       - run: mvn clean install -DskipTests -Pproduction
 #      - run: mvn tomee:run -DskipTests -Pproduction
+#      - store_test_results:
+#          path: ~/test-results/cucumber/
       - store_artifacts: # See circleci.com/docs/2.0/artifacts/ for more details.
-          path: /target/vaadin-showcase-1.0-SNAPSHOT.war
+          path: target/vaadin-showcase-1.0-SNAPSHOT.war
           destination: app.war
-  npm-build:
+#      - run:
+#          name: Save test results
+#          command: |
+#            mkdir -p ~/test-results/junit/
+#            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+#          when: always
+#          - store_test_results:
+#              path: ~/test-results
+#          - store_artifacts:
+#              path: ~/test-results/junit
+    npm-build:
     docker:
       - image: node:10.18.1-alpine3.9
     steps:
